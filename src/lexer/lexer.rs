@@ -52,6 +52,7 @@ impl Lexer {
         self.start = self.current;
         if let Some(ch) = self.peek_char() {
             let token = match ch {
+                ' ' => return self.scan_token(),
                 '+' => TokenType::Plus,
                 '-' => TokenType::Minus,
                 '0'..='9' => self.lex_int(ch),
@@ -75,7 +76,21 @@ impl Lexer {
     }
 
     fn lex_int(&mut self, ch: char) -> TokenType {
-        todo!()
+        let mut int = String::from(ch);
+
+        while let Some(ch) = self.peek_char() {
+            match ch {
+                '0'..='9' => int.push(ch),
+                '_' => int.push(ch),
+                _ => break,
+            }
+        }
+
+        let int = int.replace('_', "");
+        match u64::from_str_radix(int.as_str(), 10) {
+            Ok(i) => TokenType::Int(i),
+            Err(_) => panic!("Failed to lex the Int"),
+        }
     }
 
     fn peek_char(&mut self) -> Option<char> {
