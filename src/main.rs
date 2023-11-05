@@ -1,9 +1,11 @@
 use std::fs;
 use std::path::Path;
 
+mod interpreter;
 mod lexer;
 mod parser;
 
+use interpreter::interpreter::Interpreter;
 use lexer::lexer::Lexer;
 use parser::parser::Parser;
 
@@ -17,9 +19,15 @@ fn main() {
             match x.scan() {
                 Ok(x) => {
                     let mut parser = Parser::new(x);
-                    let ast = parser.parse();
+                    let Ok(ast) = parser.parse() else {
+                        panic!("Wrong getting AST...");
+                    };
 
-                    println!("{:#?}", ast);
+                    // println!("{:#?}", ast);
+
+                    let interpreter = Interpreter::new(ast);
+
+                    interpreter.interpret();
                 }
                 Err(e) => println!("{:?}", e),
             }

@@ -2,7 +2,7 @@
 pub enum TokenType {
     Eof,
 
-    Int(u64),
+    Int(i64),
 
     Plus,
     Minus,

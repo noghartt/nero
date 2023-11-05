@@ -1,4 +1,4 @@
-use super::tokens::{Token, TokenType, Lexeme};
+use super::tokens::{Lexeme, Token, TokenType};
 
 #[derive(Debug)]
 pub struct Lexer {
@@ -35,9 +35,7 @@ impl Lexer {
                         break;
                     }
                 }
-                Err(err) => {
-                    errors.push(err)
-                }
+                Err(err) => errors.push(err),
             }
         }
 
@@ -71,7 +69,7 @@ impl Lexer {
             lexeme: Lexeme {
                 start: self.start,
                 end: self.current,
-            }
+            },
         }
     }
 
@@ -87,7 +85,7 @@ impl Lexer {
         }
 
         let int = int.replace('_', "");
-        match u64::from_str_radix(int.as_str(), 10) {
+        match i64::from_str_radix(int.as_str(), 10) {
             Ok(i) => TokenType::Int(i),
             Err(_) => panic!("Failed to lex the Int"),
         }

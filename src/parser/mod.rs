@@ -1,5 +1,4 @@
+pub mod expr;
 pub mod parser;
-
-mod expr;
-mod stmt;
-mod token_stream;
+pub mod stmt;
+pub mod token_stream;

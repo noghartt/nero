@@ -1,5 +1,6 @@
 use crate::lexer::tokens::{Token, TokenType};
 
+#[derive(Debug)]
 pub struct TokenStream {
     tokens: Vec<Token>,
     curr: usize,

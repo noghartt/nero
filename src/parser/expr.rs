@@ -11,6 +11,10 @@ impl Expression {
     pub fn new(node: ExpressionNode) -> Box<Self> {
         Box::new(Self { node })
     }
+
+    pub fn get_node(&self) -> &ExpressionNode {
+        &self.node
+    }
 }
 
 #[derive(Debug)]
@@ -21,18 +25,18 @@ pub enum ExpressionNode {
 }
 
 #[derive(Debug)]
-enum PrimaryNode {
+pub enum PrimaryNode {
     Literal(Token),
 }
 
 #[derive(Debug)]
-struct UnaryNode {
+pub struct UnaryNode {
     pub expr: Box<Expression>,
     pub op: Token,
 }
 
 #[derive(Debug)]
-struct BinaryNode {
+pub struct BinaryNode {
     pub left: Box<Expression>,
     pub op: Token,
     pub right: Box<Expression>,
@@ -43,7 +47,7 @@ pub fn expression(tokens: &mut TokenStream) -> Result<Box<Expression>, ()> {
 }
 
 fn term(tokens: &mut TokenStream) -> Result<Box<Expression>, ()> {
-    let mut expr = primary(tokens);
+    let mut expr = unary(tokens);
     while tokens.match_next(&[TokenType::Minus, TokenType::Plus]) {
         let node = ExpressionNode::Binary(BinaryNode {
             left: expr?,
@@ -60,8 +64,8 @@ fn term(tokens: &mut TokenStream) -> Result<Box<Expression>, ()> {
 fn unary(tokens: &mut TokenStream) -> Result<Box<Expression>, ()> {
     if tokens.match_next(&[TokenType::Minus]) {
         let node = ExpressionNode::Unary(UnaryNode {
-            expr: primary(tokens)?,
             op: tokens.prev().clone(),
+            expr: primary(tokens)?,
         });
 
         return Ok(Expression::new(node));
