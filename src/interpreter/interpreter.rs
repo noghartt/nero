@@ -1,4 +1,4 @@
-use super::stmt::Executable;
+use crate::interpreter::stmt::Executable;
 use crate::parser::stmt::Statement;
 
 pub struct Interpreter {
