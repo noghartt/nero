@@ -1,5 +1,9 @@
-use super::{executable::Executable, expr::Evaluatable, value::Value};
+use super::{expr::Evaluatable, value::Value};
 use crate::parser::stmt::{ExprStatement, Statement};
+
+pub trait Executable {
+    fn run(&self) -> Result<Value, ()>;
+}
 
 impl Executable for Statement {
     fn run(&self) -> Result<Value, ()> {
