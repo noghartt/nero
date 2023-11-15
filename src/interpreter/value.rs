@@ -17,6 +17,28 @@ impl ops::Add<Value> for Value {
     }
 }
 
+impl ops::Mul<Value> for Value {
+    type Output = Result<Value, ()>;
+
+    fn mul(self, rhs: Value) -> Self::Output {
+        match (self, rhs) {
+            (Value::Int(l), Value::Int(r)) => Ok(Value::Int(l * r)),
+            _ => Err(()),
+        }
+    }
+}
+
+impl ops::Div<Value> for Value {
+    type Output = Result<Value, ()>;
+
+    fn div(self, rhs: Value) -> Self::Output {
+        match (self, rhs) {
+            (Value::Int(l), Value::Int(r)) => Ok(Value::Int(l / r)),
+            _ => Err(()),
+        }
+    }
+}
+
 impl ops::Sub<Value> for Value {
     type Output = Result<Value, ()>;
 

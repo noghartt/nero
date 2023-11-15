@@ -23,8 +23,6 @@ fn main() {
                         panic!("Wrong getting AST...");
                     };
 
-                    // println!("{:#?}", ast);
-
                     let interpreter = Interpreter::new(ast);
 
                     interpreter.interpret();

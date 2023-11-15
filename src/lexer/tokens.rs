@@ -4,8 +4,10 @@ pub enum TokenType {
 
     Int(i64),
 
-    Plus,
-    Minus,
+    Plus,  // +
+    Minus, // -
+    Star,  // *
+    Dash,  // /
 }
 
 #[derive(Debug, Clone)]

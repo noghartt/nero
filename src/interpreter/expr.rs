@@ -32,6 +32,8 @@ impl Evaluatable for BinaryNode {
         let val = match self.op.typ {
             TokenType::Minus => left - right,
             TokenType::Plus => left + right,
+            TokenType::Dash => left / right,
+            TokenType::Star => left * right,
             _ => unreachable!(),
         };
 

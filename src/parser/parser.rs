@@ -22,7 +22,7 @@ impl Parser {
         while self.tokens.current().typ != TokenType::Eof {
             match statement(self.tokens.as_mut()) {
                 Ok(stmt) => statements.push(stmt),
-                Err(e) => {
+                Err(_) => {
                     self.sync();
                     errors.push("Error while parsing");
                 }

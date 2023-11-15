@@ -53,6 +53,8 @@ impl Lexer {
                 ' ' => return self.scan_token(),
                 '+' => TokenType::Plus,
                 '-' => TokenType::Minus,
+                '/' => TokenType::Dash,
+                '*' => TokenType::Star,
                 '0'..='9' => self.lex_int(ch),
                 _ => return Err(format!("Weird token: {}", ch)),
             };

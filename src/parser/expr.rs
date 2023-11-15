@@ -48,7 +48,7 @@ pub fn expression(tokens: &mut TokenStream) -> Result<Box<Expression>, ()> {
 
 fn term(tokens: &mut TokenStream) -> Result<Box<Expression>, ()> {
     let mut expr = unary(tokens);
-    while tokens.match_next(&[TokenType::Minus, TokenType::Plus]) {
+    while tokens.match_next(&[TokenType::Minus, TokenType::Plus, TokenType::Dash, TokenType::Star]) {
         let node = ExpressionNode::Binary(BinaryNode {
             left: expr?,
             op: tokens.prev().clone(),
