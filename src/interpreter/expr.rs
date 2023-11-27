@@ -63,6 +63,7 @@ impl Evaluatable for PrimaryNode {
     fn eval(&self) -> Result<Value, ()> {
         match self {
             PrimaryNode::Literal(token) => eval_literal(token),
+            PrimaryNode::Paren { expr, lparen: _, rparen: _ } => expr.eval(),
             _ => unreachable!(),
         }
     }

@@ -37,6 +37,14 @@ impl TokenStream {
         false
     }
 
+    pub fn require(&mut self, tokens: &'static [TokenType]) -> Result<&Token, ()> {
+        if !self.match_next(tokens) {
+            return Err(());
+        }
+
+        Ok(self.prev())
+    }
+
     fn skip(&mut self) {
         self.curr += 1;
     }

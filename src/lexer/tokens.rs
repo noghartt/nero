@@ -4,6 +4,9 @@ pub enum TokenType {
 
     Int(i64),
 
+    LParen,
+    RParen,
+
     Plus,  // +
     Minus, // -
     Star,  // *

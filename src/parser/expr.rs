@@ -27,6 +27,11 @@ pub enum ExpressionNode {
 #[derive(Debug)]
 pub enum PrimaryNode {
     Literal(Token),
+    Paren {
+        lparen: Token,
+        rparen: Token,
+        expr: Box<Expression>,
+    },
 }
 
 #[derive(Debug)]
@@ -77,6 +82,17 @@ fn unary(tokens: &mut TokenStream) -> Result<Box<Expression>, ()> {
 fn primary(tokens: &mut TokenStream) -> Result<Box<Expression>, ()> {
     let node = ExpressionNode::Primary(match &tokens.accept().typ {
         TokenType::Int(_) => PrimaryNode::Literal(tokens.prev().clone()),
+        TokenType::LParen => {
+            let lparen = tokens.prev().clone();
+            let expr = expression(tokens)?;
+            let rparen = tokens.require(&[TokenType::RParen])?.clone();
+
+            PrimaryNode::Paren {
+                lparen: lparen,
+                rparen: rparen,
+                expr: expr
+            }
+        },
         _ => return Err(()),
     });
     Ok(Expression::new(node))

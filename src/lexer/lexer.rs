@@ -50,7 +50,9 @@ impl Lexer {
         self.start = self.current;
         if let Some(ch) = self.peek_char() {
             let token = match ch {
-                ' ' => return self.scan_token(),
+                ' ' | '\n' => return self.scan_token(),
+                '(' => TokenType::LParen,
+                ')' => TokenType::RParen,
                 '+' => TokenType::Plus,
                 '-' => TokenType::Minus,
                 '/' => TokenType::Dash,
@@ -78,10 +80,17 @@ impl Lexer {
     fn lex_int(&mut self, ch: char) -> TokenType {
         let mut int = String::from(ch);
 
-        while let Some(ch) = self.peek_char() {
+        while let Some(ch) = self.get_next_char() {
+            if !matches!(ch, '0'..='9') {
+                break;
+            }
+
+            let Some(ch) = self.peek_char() else {
+                unreachable!();
+            };
+
             match ch {
-                '0'..='9' => int.push(ch),
-                '_' => int.push(ch),
+                '0'..='9' | '_' => int.push(ch),
                 _ => break,
             }
         }
@@ -107,10 +116,6 @@ impl Lexer {
         }
 
         c
-    }
-
-    fn get_previous_char(&self) -> Option<char> {
-        self.source.chars().nth(self.current - 1)
     }
 
     fn get_current_char(&self) -> Option<char> {
